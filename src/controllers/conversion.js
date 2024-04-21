@@ -3,6 +3,10 @@ import htmlToPdf from '../helpers/html-to-pdf.js';
 const router = express.Router();
 
 //Post html -> pdf
+router.get('/', async(req, res) => {
+    res.send('connected!')
+})
+
 router.post('/', async (req, res) => {
     const {html} = req.body;
 

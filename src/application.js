@@ -15,7 +15,7 @@ class Application {
     }
 
     listener() {
-        this.app.listen(3000, () => {
+        this.app.listen(port, () => {
             console.log(`Server listening on port ${port}...`)
         })
     }
