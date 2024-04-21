@@ -5,7 +5,7 @@ const defaultOptions = {
     printBackground: true
 }
 async function htmlToPdf(htmlContent, options = defaultOptions) {
-    const browser = await puppeteer.launch({ headless: 'new'});
+    const browser = await puppeteer.launch();
         const page = await browser.newPage();
         //Set content of page
         page.setContent(htmlContent, {waitUntil: 'domcontentloaded'});
