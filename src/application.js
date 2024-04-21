@@ -7,7 +7,7 @@ const port = 3000;
 class Application {
     constructor(){
         this.corsOptions = {
-        origin: '*',
+        origin: 'http://localhost:5173',
         optionsSuccessStatus: 200 
     }  
      
