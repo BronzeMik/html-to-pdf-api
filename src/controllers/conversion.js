@@ -17,6 +17,7 @@ router.post('/', async (req, res) => {
     const pdf = await htmlToPdf(html) 
 
     res.contentType('application/pdf')
+    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
     res.send(pdf)
 })
 
