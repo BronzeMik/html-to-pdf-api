@@ -11,6 +11,7 @@ const defaultOptions = {
 }
 async function htmlToPdf(htmlContent, options = defaultOptions) {
 
+  
   // create the API client instance
   var client = new pdfcrowd.HtmlToPdfClient("mikailabrown2022", "6d35d3f95016f4ced7d7b5538158ad6a");
   

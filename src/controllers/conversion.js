@@ -12,13 +12,17 @@ function sendPdfInHttpResponse(pdfBuffer, res, filename) {
     res.setHeader('Content-Length', pdfBuffer.length);
     res.end(pdfBuffer);
   }
+
+  
 router.post('/', async (req, res) => {
     const { html } = req.body;
-        if(!html) {
-            res.status(400).send('Request body should contain an html property');
-            return
-        }
 
+    
+        
+    if(!html) {
+        res.status(400).send('Request must contain html');
+        return
+    }
 
     try {
         const pdfBuffer = await htmlToPdf(html);
