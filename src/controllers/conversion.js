@@ -8,17 +8,28 @@ router.get('/', async(req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const {html} = req.body;
+    const { html } = req.body;
+        if(!html) {
+            res.status(400).send('Request body should contain an html property');
+            return
+        }
 
-    if(!html) {
-        res.status(400).send('Request body should contain an html property');
-        return
+
+    try {
+        const pdfBuffer = await htmlToPdf(html);
+        
+        // Set response headers to force download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+
+        // Send the PDF buffer as the response
+        res.send(pdfBuffer);
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).send('Error generating PDF');
     }
-    const pdf = await htmlToPdf(html) 
-
-    res.contentType('application/pdf')
-    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
-    res.send(pdf)
+    
+    
 })
 
 
