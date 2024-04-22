@@ -1,24 +1,24 @@
-import PDFDocument from 'pdfkit';
-import fs from 'fs';
+import pdfcrowd from "pdfcrowd";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const defaultOptions = {
     format: 'A4',
     printBackground: true
 }
 async function htmlToPdf(htmlContent, options = defaultOptions) {
-    return new Promise((resolve, reject) => {
-        const doc = new PDFDocument();
-        const buffers = [];
-    
-        doc.on('data', (chunk) => buffers.push(chunk));
-        doc.on('end', () => resolve(Buffer.concat(buffers)));
-        doc.on('error', (error) => reject(error));
-    
-        // Set up the document
-        doc.fontSize(12).text(htmlContent);
-    
-        // Finalize the PDF document
-        doc.end();
+
+  // create the API client instance
+  var client = new pdfcrowd.HtmlToPdfClient("mikailabrown2022", "6d35d3f95016f4ced7d7b5538158ad6a");
+  
+  // run the conversion and write the result to a file
+  client.convertStringToFile(
+      htmlContent,
+      "invoice.pdf",
+      function(err, fileName) {
+          if (err) return console.error("Pdfcrowd Error: " + err);
+          console.log("Success: the file was created " + fileName);
       });
 }
 export default htmlToPdf;
