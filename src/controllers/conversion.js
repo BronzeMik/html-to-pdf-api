@@ -6,7 +6,12 @@ const router = express.Router();
 router.get('/', async(req, res) => {
     res.send('connected!')
 })
-
+function sendPdfInHttpResponse(pdfBuffer, res, filename) {
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.end(pdfBuffer);
+  }
 router.post('/', async (req, res) => {
     const { html } = req.body;
         if(!html) {
@@ -19,11 +24,10 @@ router.post('/', async (req, res) => {
         const pdfBuffer = await htmlToPdf(html);
         
         // Set response headers to force download
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
-
-        // Send the PDF buffer as the response
-        res.send(pdfBuffer);
+        // Send the PDF buffer in the HTTP response
+        
+        sendPdfInHttpResponse(pdfBuffer, res, 'invoice.pdf');
+        
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).send('Error generating PDF');
