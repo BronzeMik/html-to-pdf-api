@@ -19,7 +19,8 @@
     "fs": "^0.0.1-security",
     "html-pdf-node": "^1.0.8",
     "pdfkit": "^0.15.0",
-    "puppeteer": "^22.6.5"
+    "puppeteer": "^22.6.5",
+    "temp": "^0.9.4"
   },
   "devDependencies": {
     "pdfcrowd": "^5.18.1"

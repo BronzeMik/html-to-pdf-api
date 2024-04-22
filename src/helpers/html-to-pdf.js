@@ -1,6 +1,7 @@
 import pdfcrowd from "pdfcrowd";
 import dotenv from 'dotenv';
 import fs from 'fs';
+import temp from 'temp'
 
 dotenv.config();
 
@@ -14,27 +15,22 @@ async function htmlToPdf(htmlContent, options = defaultOptions) {
   var client = new pdfcrowd.HtmlToPdfClient("mikailabrown2022", "6d35d3f95016f4ced7d7b5538158ad6a");
   
   return new Promise((resolve, reject) => {
-    client.convertStringToFile(htmlContent, 'invoice.pdf', (err, filePath) => {
+    const tempFilePath = temp.path({ suffix: '.pdf' }); // Generate a temporary file path
+
+    const pdfStream = client.convertStringToFile(htmlContent, tempFilePath, (err, _) => {
       if (err) {
         reject(err);
         return;
       }
       
-      // Read the file and resolve the PDF buffer
-      fs.readFile(filePath, (err, data) => {
+      // Read the temporary file and resolve the PDF buffer
+      fs.readFile(tempFilePath, (err, data) => {
         if (err) {
           reject(err);
           return;
         }
-        
-        resolve(data);
-        
-        // Clean up: delete the temporary file
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.error('Error deleting file:', err);
-          }
-        });
+
+        resolve(data); // Resolve the Promise with the PDF data
       });
     });
   });
